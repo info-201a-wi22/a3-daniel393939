@@ -59,7 +59,7 @@ number of prison inmates. It would seem that the black population ages 15 ~ 64 i
 
 <br>
 
-<i><b>5)</b></i> The race with most missing values from the prison population statistics is <b>`r race_nameify(most_missing_values[1])`</b> at <b>`r most_missing_values[2]`</b> while the lowest is <b>`r race_nameify(least_missing_values[1])`</b> at <b>`r least_missing_values[2]`</b>. Perhaps this is just a coincidence, but it lowers how reliably we can make generalizations about certain races from this dataset, as there are only <b>`r nrow(incarceration_ny)`</b> relevant rows. </div>
+<i><b>5)</b></i> The race with the most missing values from the prison population statistics is <b>`r race_nameify(most_missing_values[1])`</b> at <b>`r most_missing_values[2]`</b> while the lowest is <b>`r race_nameify(least_missing_values[1])`</b> at <b>`r least_missing_values[2]`</b>. Perhaps this is just a coincidence, but it lowers how reliably we can make generalizations about certain races from this dataset, as there are only <b>`r nrow(incarceration_ny)`</b> relevant rows. </div>
 
 <br>
 

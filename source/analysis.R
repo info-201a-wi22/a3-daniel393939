@@ -188,7 +188,7 @@ jail_and_prison_correlation <- ggplot(scatter_data) +
        y = "Mean Jail Population (by Year)",
        color = "Race") +
   scale_x_continuous(breaks = seq(0, 1000, by = 500), labels = comma) +
-  scale_y_continuous(breaks = seq(0, 300, by = 200), labels = comma) +
+  scale_y_continuous(breaks = seq(0, 300, by = 100), labels = comma) +
   theme(plot.title = element_text(size = 19))
 
 #-------------------------------------------------------------------------------

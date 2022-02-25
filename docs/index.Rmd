@@ -8,6 +8,7 @@ output: html_document
 ```{r, setup, include = FALSE}
 library("tidyverse")
 library("knitr")
+
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 knitr::opts_knit$set(root.dir = "../source")
 ```
@@ -23,14 +24,19 @@ source("analysis.R")
 <br>
 <div style = font-size:17px;background-color:#F2EEED;padding:5px;">
 <p style = "text-indent:40px">
-Racism is a prevalent social issue in the United States, with roots from the days of slavery in the 1800s. While legalised slavery no longer exists today, racism still rears its ugly head in more subtle forms. One manifestation is through the incarceration system, where people of color are evidently discriminated against.	Racial profiling has lead to the selective targeting of colored people by the police, particularly blacks. The tragic police killing of George Floyd has brought to light the public’s attitude towards law enforcement. The majority of both blacks and whites unequivocally say that black people are likely to be treated unfairly by the criminal justice system. Moreover, the war on drugs has disproportionately targeted people of color, particularly blacks and Latinos. These racial minority groups are likely to be treated as felons for possessing even small amounts of drugs, which in turn can lead to lifelong consequences such as unemployment, disenfranchisement, and the denial of public aid. </p>
+Racism is a prevalent social issue in the United States, with roots from the days of slavery in the 1800s. While legalised slavery no longer exists today, racism still rears its ugly head in more subtle forms. One manifestation is through the incarceration system, where people of color are evidently discriminated against.	Racial profiling has led to the selective targeting of colored people by the police, particularly blacks. The tragic police killing of George Floyd has brought to light the public’s attitude towards law enforcement. The majority of both blacks and whites unequivocally say that black people are likely to be treated unfairly by the criminal justice system. Moreover, the war on drugs has disproportionately targeted people of color, particularly blacks and Latinos. These racial minority groups are likely to be treated as felons for possessing even small amounts of drugs, which in turn can lead to lifelong consequences such as unemployment, disenfranchisement, and the denial of public aid. </p>
 <br>
 <p style = "text-indent:40px"> 
-In this report, I hone in on one of the most populated and racially diverse states, New York. I utilize a dataset provided by the Vera Institute of Justice to identify specific patterns of racial discrimination in the prison system of New York. Prison is more severe than jail as it involves felons that serve for a year or more, and so I thought it would be interesting to specifically examine the prison system. I focus on four main racial groups - Black, White, Asian, and Latino. The main variable I chose to focus on is <i><b>prison population</b></i> (_prison_pop), because I feel it gives the most direct representation of the general state of imprisonment. Additional variables I used for analysis include population of ages 15 to 64 (_pop_15to64), prison admission rates (_adm), and jail population (_jail_pop). </p>
+In this report, I hone in on one of the most populated and racially diverse states, New York. I utilize a dataset provided by the Vera Institute of Justice to identify specific patterns of racial discrimination in the prison system of New York from 1970 ~ 2018. Prison is more severe than jail as it involves felons that serve for a year or more, and so I thought it would be interesting to specifically examine the prison system. I focus on four main racial groups - Black, White, Asian, and Latino. The main variable I chose to focus on is <i><b>prison population</b></i> (_prison_pop), because I feel it gives the most direct representation of the general state of imprisonment. Supplementary variables I used for analysis include population of ages 15 to 64 (_pop_15to64), prison admission rates (_adm), and jail population (_jail_pop). </p>
 </div>
 
 ## Summary
 
+<br>
+<div style = font-size:17px;background-color:#F2EEED;padding:5px;">
+<b>Caveat:</b>
+Annual prison population is measured to be the number of prison inmates at the end of a given year.
+</div>
 <br>
 <div style = "font-size:17px;background-color:#F2EEED;padding:5px;">
 
@@ -39,10 +45,9 @@ considering the average across all races is <b>`r format(avg_prison_pop, scienti
 
 <br>
 
-<i><b>2)</b></i> Further, the race with the highest annual proportion of prison inmates to race population ages 15 ~ 64 on average is <b>`r race_nameify(highest_prison_to_pop_prop[1])`</b> at <b>`r highest_prison_to_pop_prop[2]`</b>, while the lowest is <b>`r race_nameify(lowest_prison_to_pop_prop[1])`</b> at <b>`r lowest_prison_to_pop_prop[2]`</b>. Even
-in proportion to the population of ages 15 ~ 64, there seems to be a significant range in the
-number of prison inmates across the races. It is also a bit shocking that the average black
-prison population is a whopping 7 times higher than the total black population ages 15 ~ 64.
+<i><b>2)</b></i> Further, the race with the highest annual proportion of prison inmates to race population ages 15 ~ 64 on average is <b>`r race_nameify(highest_prison_to_pop_prop[1])`</b> at <b>`r highest_prison_to_pop_prop[2]`</b>, while the lowest is <b>`r race_nameify(lowest_prison_to_pop_prop[1])`</b> at <b>`r lowest_prison_to_pop_prop[2]`</b>. In
+proportion to the population ages 15~64, there doesn't seem to be a huge difference in the annual
+number of prison inmates. It would seem that the black population ages 15 ~ 64 is relatively much higher than that of other races. 
 
 <br>
 
@@ -63,7 +68,7 @@ prison population is a whopping 7 times higher than the total black population a
 <u><span style = "font-size:20px;font-weight:bold">Conclusion</span></u>
 
 <p style = "text-indent:40px;font-size:17px">
-In general, there seems to be a huge range in various measures of incarceration among the races. However, we would need to look more closely at the data to compare between the races. Blacks definitely appear to suffer the most from the prison system, whereas Asians suffer the least. However, because of the overwhelming number of missing values for the prison population (particularly Asian), we should not take our conclusions as definitive. 
+In general, there seems to be a huge range in various measures of incarceration among the races. However, we would need to look more closely at the data to compare between the races. At first glance, Blacks definitely appear to suffer the most from the prison system, whereas Asians suffer the least. However, because of the overwhelming number of missing values for the prison population (particularly Asian), we should not take our conclusions as definitive. 
 </p> </div>
 
 ## Time Series
@@ -73,7 +78,8 @@ plot(prison_by_race_over_time)
 ```
 <br>
 <p style = "text-indent:40px;font-size:17px;background-color:#F2EEED;padding:5px;">
-  This time series graph aims to illustrate how the average annual prison population in New York for each race has been changing over the years. As can be seen, the Whites and Asian populations have remained relatively stagnant, whereas Blacks and Latinos populations have been steadily decreasing. In the earlier years, the Latino prison population was noticeably higher than the Whites population, but it has reached parity in the later years. Across the entire time span, the Black prison population has been significantly higher than the other populations, despite its decreasing trend. It is clear that historically there has been a relatively higher proclivity for the imprisonment of Blacks and Latinos. </p>
+  This time series graph aims to illustrate how the average annual prison population in New York for each race has been changing over the years. As can be seen, the Whites and Asian populations have remained relatively stagnant, whereas Blacks and Latinos populations have been steadily decreasing. In the earlier years, the Latino prison population was noticeably higher than the Whites population, but it has reached parity in the later years. Across the entire time span, the Black prison population has been significantly higher than the other populations, despite its decreasing trend. It is clear that historically there has been a relatively higher proclivity for the imprisonment of Blacks and Latinos. However, the decreasing trend potentially indicates the increasing awareness
+of the issue and the progressive push for racial justice. </p>
 
 ## Scatter Plot
 <br>
@@ -81,6 +87,11 @@ plot(prison_by_race_over_time)
 plot(jail_and_prison_correlation)
 ```
 <br><br>
+<div style = font-size:17px;background-color:#F2EEED;padding:5px;">
+<b>Caveat:</b>
+Annual jail population is measured to be the average daily number of jail inmates in a given year.
+</div>
+<br>
 <p style = "text-indent:40px;font-size:17px;background-color:#F2EEED;padding:5px;">
   This scatter plot aims to illustrate how the prison population is correlated with the jail population in New York. Each point marks the average annual prison population and jail population for a specific race. As can be seen, there appears to be a positive correlation for both Blacks and Latinos. However, there is also a positive correlation for Whites as well. It seems that the prison population generally increases along with the jail population. However if certain racial groups such as Blacks and Latinos face more incarceration due to other discriminatory factors, this positive correlation can possibly have a compounding effect. </p>
 

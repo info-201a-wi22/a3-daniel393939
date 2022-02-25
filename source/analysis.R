@@ -1,6 +1,7 @@
 # Initially source and filter original dataset
 
-source("../source/helper_functions.R")
+source("helper_functions.R")
+
 website <- paste("https://raw.githubusercontent.com/vera-institute/",
                  "incarceration-trends/master/incarceration_trends.csv",
                  sep = "")
@@ -23,7 +24,7 @@ all_races <- sapply(c(races, "native", "other_race"),
 
 avg_prison_pop <- incarceration %>%
   compile_by_race(all_races) %>%
-  summarise(average = mean(average) * 365) %>%
+  summarise(average = mean(average)) %>%
   pull() %>%
   round(0)
 
@@ -33,7 +34,6 @@ avg_prison_pop <- incarceration %>%
 prison_pop_cols <- sapply(races, paste, "_prison_pop", sep = "")
 
 prison_pop_by_race <- compile_by_race(incarceration_ny, prison_pop_cols) %>%
-  mutate_at(vars(average), annualise) %>%
   arrange(desc(average))
   
 highest_avg_prison_by_race <- prison_pop_by_race %>%
@@ -127,7 +127,6 @@ least_missing_values <- missing_values %>%
 
 time_series_data <- incarceration_ny %>%
   select(year, all_of(prison_pop_cols)) %>%
-  mutate_at(vars(-year), annualise) %>%
   group_by(year) %>%
   summarize_all(mean, na.rm = T) %>%
   filter_at(vars(-year), all_vars(. > 0)) %>%
@@ -143,7 +142,7 @@ prison_by_race_over_time <- ggplot(data = time_series_data) +
        x = "Year",
        y = "Mean Prison Population") +
   scale_x_continuous(breaks = seq(1995, 2015, by = 10)) +
-  scale_y_continuous(breaks = seq(0, 400000, by = 200000), labels = comma) +
+  scale_y_continuous(breaks = seq(0, 1000, by = 500), labels = comma) +
   scale_color_hue(labels = c("Black", "White", "Latino", "Asian")) +
   labs(color = "Race") +
   theme(plot.title = element_text(size = 19))
@@ -158,7 +157,6 @@ jail_pop_cols <- sapply(races, paste, "_jail_pop", sep = "") %>%
 
 prison_data <- incarceration_ny %>%
   select(year, total_pop, all_of(c(prison_pop_cols))) %>%
-  mutate_at(vars(-year), annualise) %>%
   group_by(year) %>%
   summarise_all(mean, na.rm = T) %>%
   rename_at(vars(-year, -total_pop), paste_helper) %>%
@@ -166,7 +164,6 @@ prison_data <- incarceration_ny %>%
 
 jail_data <- incarceration_ny %>%
   select(year, total_pop, all_of(c(jail_pop_cols))) %>%
-  mutate_at(vars(-year), annualise) %>%
   group_by(year) %>%
   summarise_all(mean, na.rm = T) %>%
   gather(key = "race", value = "jail_pop", -year, -total_pop)
@@ -190,8 +187,8 @@ jail_and_prison_correlation <- ggplot(scatter_data) +
        x = "Mean Prison Population (by Year)",
        y = "Mean Jail Population (by Year)",
        color = "Race") +
-  scale_x_continuous(breaks = seq(0, 400000, by = 200000), labels = comma) +
-  scale_y_continuous(breaks = seq(0, 100000, by = 50000), labels = comma) +
+  scale_x_continuous(breaks = seq(0, 1000, by = 500), labels = comma) +
+  scale_y_continuous(breaks = seq(0, 300, by = 200), labels = comma) +
   theme(plot.title = element_text(size = 19))
 
 #-------------------------------------------------------------------------------

@@ -9,8 +9,10 @@ output: html_document
 library("tidyverse")
 library("knitr")
 
+current_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
+
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
-knitr::opts_knit$set(root.dir = "../source")
+knitr::opts_knit$set(root.dir = paste(current_dir, "/../source", sep = ""))
 ```
 
 

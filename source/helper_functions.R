@@ -1,5 +1,3 @@
-require(scales)
-
 # Calculates the mean value by race for particular columns in 'race_columns'
 compile_by_race <- function(data, race_columns) {
   data %>%

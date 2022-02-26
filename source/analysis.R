@@ -1,5 +1,6 @@
 # Initially source and filter original dataset
 
+require(scales)
 source("helper_functions.R")
 
 website <- paste("https://raw.githubusercontent.com/vera-institute/",
@@ -121,7 +122,6 @@ least_missing_values <- missing_values %>%
   race_and_value(0)
 
 #-------------------------------------------------------------------------------
-
 
 # 2) Time Series: Average prison inmates each year (by race)
 

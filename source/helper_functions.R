@@ -18,12 +18,6 @@ race_and_value <- function(data, digit) {
   c(pull(data[, 1]), round(pull(data[, 2]), digit))
 }
 
-# Returns given value 'x' by multiplied by 365
-# (used to account for daily average populations)
-annualise <- function(x) {
-  x * 365
-}
-
 # Takes given string 'race' and returns a formalised version
 race_nameify <- function(race) {
   if (str_detect(race, "aapi")) {

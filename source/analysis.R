@@ -1,7 +1,7 @@
 # Initially source and filter original dataset
 
 require(scales)
-source("helper_functions.R")
+source("../source/helper_functions.R")
 
 website <- paste("https://raw.githubusercontent.com/vera-institute/",
                  "incarceration-trends/master/incarceration_trends.csv",
@@ -9,7 +9,7 @@ website <- paste("https://raw.githubusercontent.com/vera-institute/",
 incarceration <- read.csv(website, stringsAsFactors = F)
 incarceration_ny <- incarceration %>%
   filter(state == "NY")
-states <- read.csv("states.csv")
+states <- read.csv("../source/states.csv")
 
 #-------------------------------------------------------------------------------
 
@@ -34,8 +34,7 @@ avg_prison_pop <- incarceration %>%
 
 prison_pop_cols <- sapply(races, paste, "_prison_pop", sep = "")
 
-prison_pop_by_race <- compile_by_race(incarceration_ny, prison_pop_cols) %>%
-  arrange(desc(average))
+prison_pop_by_race <- compile_by_race(incarceration_ny, prison_pop_cols)
   
 highest_avg_prison_by_race <- prison_pop_by_race %>%
   filter(average == max(average)) %>%
@@ -56,8 +55,7 @@ prison_to_pop_prop_by_race <- prison_pop_by_race %>%
   rename(avg_inmate = average) %>%
   inner_join(pop_15_64_by_race, by = c("race")) %>%
   mutate(prop = avg_inmate / avg_pop) %>%
-  select(race, prop) %>%
-  arrange(desc(race))
+  select(race, prop)
 
 highest_prison_to_pop_prop <- prison_to_pop_prop_by_race %>%
   filter(prop == max(prop)) %>%
@@ -72,8 +70,7 @@ lowest_prison_to_pop_prop <- prison_to_pop_prop_by_race %>%
 
 adm_races <- paste(races, "_prison_adm_rate", sep = "")
 
-prison_adm_by_race <- compile_by_race(incarceration_ny, adm_races) %>%
-  arrange(desc(average))
+prison_adm_by_race <- compile_by_race(incarceration_ny, adm_races)
 
 highest_influx_by_race <- prison_adm_by_race %>%
   filter(average == max(average)) %>%
@@ -84,7 +81,7 @@ lowest_influx_by_race <- prison_adm_by_race %>%
   race_and_value(0)
 
 # e) What proportion of counties have an average annual proportion of prison
-#    black inmates to white inmates of less than 1 ?
+#    black inmates to white inmates of greater than 1 ?
 
 total_counties <- incarceration_ny %>%
   summarize(n_distinct(county_name)) %>%
@@ -95,7 +92,7 @@ more_black_counties_prison <- incarceration_ny %>%
   group_by(county_name) %>%
   summarise(prop = mean(black_prison_pop, na.rm = T) /
               mean(white_prison_pop, na.rm = T)) %>%
-  filter(prop < 1) %>%
+  filter(prop > 1) %>%
   summarise(count = n()) %>%
   pull() %>%
   as.numeric()
@@ -110,8 +107,7 @@ missing_values <- incarceration_ny %>%
   gather(key = race, value = prison_pop) %>%
   filter(is.na(prison_pop)) %>%
   group_by(race) %>%
-  summarise(missing_values = n()) %>%
-  arrange(desc(missing_values))
+  summarise(missing_values = n())
 
 most_missing_values <- missing_values %>%
   filter(missing_values == max(missing_values)) %>%

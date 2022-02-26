@@ -57,7 +57,7 @@ number of prison inmates. It would seem that the black population ages 15 ~ 64 i
 
 <br>
 
-<i><b>4)</b></i> <b>`r round(black_white_prison_above_1, 2)`</b> percent of counties in New York have an average annual proportion of black prison inmates to white inmates that is greater than 1. A hefty majority of counties in New York admit more black prison inmates than white inmates on average.
+<i><b>4)</b></i> <b>`r round(black_white_prison_above_1, 2)`</b> percent of counties in New York have an average annual proportion of black prison inmates to white inmates that is greater than 1. Most counties admit more white prison inmates than black inmates. 
 
 <br>
 

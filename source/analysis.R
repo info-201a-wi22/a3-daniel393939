@@ -195,8 +195,7 @@ prop_data <- incarceration %>%
   select(state, black_prison_pop, white_prison_pop) %>%
   group_by(state) %>%
   summarise_all(mean, na.rm = T) %>%
-  mutate(black_white_prop = black_prison_pop / white_prison_pop) %>%
-  na.omit()
+  mutate(black_white_prop = black_prison_pop / white_prison_pop)
 
 state_shape <- map_data("state")
 
@@ -209,7 +208,7 @@ map <- ggplot(map_data) +
   geom_polygon(mapping = aes(x = long, y = lat, group = group,
                              fill = black_white_prop),
                color = "white", size = 0.2) +
-  scale_fill_continuous(low = "#132B43", high = "Red") +
+  scale_fill_continuous(low = "#132B43", high = "Red", na.value = "#5F9EA0") +
   labs(title = paste("Mean Proportion of Black to White\n",
                      "Prison Inmates by State (1970 ~ 2018)", sep = ""),
        fill = "Ratio") +

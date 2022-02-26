@@ -212,7 +212,7 @@ map <- ggplot(map_data) +
   labs(title = paste("Mean Proportion of Black to White\n",
                      "Prison Inmates by State (1970 ~ 2018)", sep = ""),
        fill = "Ratio") +
-  coord_quickmap() +
+  coord_map() +
   theme(axis.line = element_blank(),
         axis.text = element_blank(),
         axis.ticks = element_blank(),
